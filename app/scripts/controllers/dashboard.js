@@ -135,10 +135,13 @@ $http.get('http://projectservice.staging.tangentmicroservices.com:80/api/v1/proj
   $scope.editTask = function(task){
     $scope.tempTask = {
       id: task.id,
-      name : task.name,
-      email : task.email,
-      companyName : task.companyName,
-      designation : task.designation
+      title : task.title,
+      description : task.description,
+      start_date : task. start_date ,
+      billable : task.billable,
+      active : task. active,
+      task_set : task.task_set, 
+      resource : task.resource
     };
     $scope.editMode = true;
     $scope.index = $scope.post.tasks.indexOf(task);
