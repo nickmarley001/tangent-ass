@@ -8,48 +8,48 @@
  * Controller of yapp
  */
 angular.module('tangentAssApp')
-  .controller('LoginCtrl', function($scope, $location) {
 
-    $scope.submit = function() {
+  .controller('LoginCtrl', function ($scope,$http,$rootScope,$cookies,$location) {
+    this.awesomeThings = [
+      'HTML5 Boilerplate',
+      'AngularJS',
+      'Karma'
+    ];
+      $scope.username = '';
+      $scope.password = '';
 
-      $location.path('/dashboard');
+      $scope.logging = function(){
 
-      return false;
-    }
+          $scope.user = {
+              'username': $scope.username,
+              'password': $scope.password
+          };
 
+          $http.post('http://userservice.staging.tangentmicroservices.com:80/api-token-auth/',$scope.user)
+              .success(function (data) {
 
+                  $cookies.put('Auth',data.token);
 
-
-var _login = function (loginData) {
- 
-        var data = "grant_type=password&username=" + loginData.userName + "&password=" + loginData.password;
- 
-        var deferred = $q.defer();
- 
-        $http.post(serviceBase + 'token', data, { headers: { 'Content-Type': 'application/x-www-form-urlencoded' } }).success(function (response) {
- 
-            localStorageService.set('authorizationData', { token: response.access_token, userName: loginData.userName });
- 
-            _authentication.isAuth = true;
-            _authentication.userName = loginData.userName;
- 
-            deferred.resolve(response);
- 
-        }).error(function (err, status) {
-            _logOut();
-            deferred.reject(err);
-        });
- 
-        return deferred.promise;
- 
-    }
+                  $http.defaults.headers.common = {
+                      'content-type': 'application/json',
+                      'Authorization': 'Token ' + $cookies.get('Auth')
+                  };
 
 
+                  $http.get('http://projectservice.staging.tangentmicroservices.com:80/api/v1/projects/')
+                      .success(function (response){
+                          $rootScope.PostData = response;
+                          $rootScope.items = response.length;
+                          console.log('object is',$rootScope.active);
+                      })
+                      .error(function (error, status){
 
+                          console.log(status);
+                      });
 
+                    $cookies.put('projects',$rootScope.PostData);
+                  console.log($cookies.get('projects'));
+                  $location.path('/projects');
 
-
-  });
-
-
-
+          });
+      };
