@@ -23,7 +23,7 @@ angular.module('tangentAssApp.controllers', [])
     "authorization": "Basic YWRtaW4xOmFkbWluMQ==",
     "cache-control": "no-cache",
     "postman-token": "479dc836-dd31-0c7c-f2a1-e3e226f35bc8"
-  }
+  }s
 }
 
 $.ajax(settings).done(function (response) {
@@ -135,13 +135,10 @@ $http.get('http://projectservice.staging.tangentmicroservices.com:80/api/v1/proj
   $scope.editTask = function(task){
     $scope.tempTask = {
       id: task.id,
-      title : task.title,
-      description : task.description,
-      start_date : task. start_date ,
-      billable : task.billable,
-      active : task. active,
-      task_set : task.task_set, 
-      resource : task.resource
+      name : task.name,
+      email : task.email,
+      companyName : task.companyName,
+      designation : task.designation
     };
     $scope.editMode = true;
     $scope.index = $scope.post.tasks.indexOf(task);
