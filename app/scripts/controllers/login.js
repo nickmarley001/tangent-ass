@@ -49,7 +49,10 @@ angular.module('tangentAssApp')
 
                     $cookies.put('projects',$rootScope.PostData);
                   console.log($cookies.get('projects'));
-                  $location.path('/projects');
+                  $location.path('/dashboard');
 
           });
-      };
+      }
+
+
+       });
